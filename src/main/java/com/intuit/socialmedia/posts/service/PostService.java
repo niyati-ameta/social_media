@@ -91,7 +91,7 @@ public class PostService {
 
     private PostResponse toPostResponse(Post post) {
         if (post == null) {
-            return null; // todo Handle null post case
+            return null; // todo Handle null post case test
         }
 
         PostResponse postResponse = new PostResponse();
