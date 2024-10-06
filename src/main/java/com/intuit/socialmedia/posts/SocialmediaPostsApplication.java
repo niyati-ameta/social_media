@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 		bearerFormat = "JWT",
 		scheme = "bearer"
 )
+
 public class SocialmediaPostsApplication {
 
 	public static void main(String[] args) {

@@ -5,6 +5,7 @@ import com.intuit.socialmedia.posts.constant.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,8 +19,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "post")
-@NoArgsConstructor
 @Data
+@Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Post {
     @Id
@@ -41,6 +42,7 @@ public class Post {
     private OffsetDateTime updatedOn;
 
     private String createdBy; // userId
+
     @Enumerated(EnumType.ORDINAL)
     private Status status;
 }

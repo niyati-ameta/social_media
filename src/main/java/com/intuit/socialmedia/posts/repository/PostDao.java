@@ -5,15 +5,18 @@ import com.intuit.socialmedia.posts.dto.request.PostFilterRequest;
 import com.intuit.socialmedia.posts.dto.response.PostResponse;
 import com.intuit.socialmedia.posts.entity.Post;
 import jakarta.persistence.criteria.Predicate;
+import jakarta.transaction.Transactional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,9 @@ public interface PostDao extends JpaRepository<Post, String>, JpaSpecificationEx
             "FROM Post p JOIN User u ON p.createdBy = u.id " +
             "WHERE p.status = :status")
     Slice<PostResponse> findPostsWithUserDetails(@Param("status") String status, Pageable pageable);
+
+    @Query("SELECT p FROM Post p WHERE p.updatedOn < :createdOn ORDER BY p.updatedOn DESC")
+    List<Post> findOlderPosts(OffsetDateTime createdOn, Pageable pageable);
 
     default Specification<Post> customSpecification(PostFilterRequest request) {
         return (root, query, criteriaBuilder) -> {

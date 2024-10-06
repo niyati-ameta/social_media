@@ -19,6 +19,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("v1/post")
@@ -40,14 +42,16 @@ public class PostController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<PostResponse> createPost(PostCreateRequest request) {
-        // todo Implementation here
+        postService.addUpdatePost(request);
         return ResponseEntity.ok().build();
     }
+
+
     @PostMapping("/list")
-    public ResponseEntity<Slice<PostResponse>> list(@RequestBody PostFilterRequest filter,
-                                                    @RequestParam(defaultValue = "1") int pageNumber, @RequestParam(defaultValue = "10") int pageSize, @RequestParam(defaultValue = "firstPublishedOn") String sortBy) {
-        log.info("PostFilterRequest request : {}, page: {}, size: {}", filter, pageNumber, pageSize);
-        Pageable page = PageRequest.of(pageNumber - 1, pageSize, Sort.by(sortBy).descending());
-        return ResponseEntity.ok(postService.list(filter, page));
+    public ResponseEntity<List<PostResponse>> list(@RequestBody PostFilterRequest filter) {
+        //log.info("PostFilterRequest request : {}, page: {}, size: {}", filter, pageNumber, pageSize);
+        return (ResponseEntity<List<PostResponse>>) postService.getPostDetail(filter);
+//        Pageable page = PageRequest.of(pageNumber - 1, pageSize, Sort.by(sortBy).descending());
+//        return ResponseEntity.ok(postService.list(filter, page));
     }
 }

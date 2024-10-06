@@ -1,12 +1,14 @@
 package com.intuit.socialmedia.posts.dto.response;
 
 import com.intuit.socialmedia.posts.entity.Comment;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.OffsetDateTime;
 import java.util.List;
 
 @Data
+@Builder
 public class PostResponse { //todo equals hashcode on postID
     private String id;
     private String description;
